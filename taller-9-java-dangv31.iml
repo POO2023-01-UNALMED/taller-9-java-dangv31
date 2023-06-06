@@ -7,16 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="lib" level="project" />
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://C:/Program Files/Java/jdk-17/javafx-sdk-20.0.1/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://C:/Program Files/Java/jdk-17/javafx-sdk-20.0.1/lib" recursive="false" />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" exported="" name="javafx-swt" level="project" />
+    <orderEntry type="library" name="javafx-swt1" level="project" />
   </component>
 </module>
