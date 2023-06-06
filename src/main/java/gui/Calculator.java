@@ -1,11 +1,9 @@
 package gui;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -30,7 +28,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		rt.setStroke(Color.GRAY);
 		
 		StackPane sp =  new StackPane(rt, this.displayText);
-		
+
 		sp.setPadding(new Insets(10, 10, 10, 10));
 		
 		GridPane gd = new GridPane();
@@ -42,7 +40,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		gd.setAlignment(Pos.CENTER);
 		
 		Button b7 = new Button("7");
-		gd.add(b7, 0, 1);
+		gd.add(b7, 0, 0);
 		b7.setPrefWidth(50);
 		b7.setOnAction(this);
 		
@@ -52,12 +50,12 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b8.setOnAction(this);
 		
 		Button b9 = new Button("9");
-		gd.add(b9, 2, 3);
+		gd.add(b9, 2, 0);
 		b9.setPrefWidth(50);
 		b9.setOnAction(this);
 		
 		Button div = new Button("/");
-		gd.add(div, 3, 1);
+		gd.add(div, 3, 0);
 		div.setPrefWidth(50);
 		div.setOnAction(this);
 		
@@ -72,22 +70,22 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b5.setOnAction(this);
 		
 		Button b6 = new Button("6");
-		gd.add(b6, 3, 3);
+		gd.add(b6, 2, 1);
 		b6.setPrefWidth(50);
 		b6.setOnAction(this);
 		
 		Button mul = new Button("*");
-		gd.add(mul, 4, 1);
+		gd.add(mul, 3, 1);
 		mul.setPrefWidth(50);
 		mul.setOnAction(this);
 		
 		Button b1 = new Button("1");
-		gd.add(b1, 0, 1);
+		gd.add(b1, 0, 2);
 		b1.setPrefWidth(50);
 		b1.setOnAction(this);
 		
 		Button b2 = new Button("2");
-		gd.add(b2, 0, 2);
+		gd.add(b2, 1, 2);
 		b2.setPrefWidth(50);
 		b2.setOnAction(this);
 		
@@ -97,7 +95,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b3.setOnAction(this);
 		
 		Button minus = new Button("-");
-		gd.add(minus, 3, 4);
+		gd.add(minus, 3, 2);
 		minus.setPrefWidth(50);
 		minus.setOnAction(this);
 		
@@ -107,7 +105,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		b0.setOnAction(this);
 		
 		Button plus = new Button("+");
-		gd.add(plus, 5, 3);
+		gd.add(plus, 2, 3);
 		plus.setPrefWidth(50);
 		plus.setOnAction(this);
 		
@@ -117,7 +115,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		equals.setOnAction(this);
 		
 		Button reset = new Button("C");
-		gd.add(reset, 0, 4, 3, 1);
+		gd.add(reset, 0, 4, 4, 1);
 		reset.setPrefWidth(215);
 		reset.setOnAction(this);
 		
@@ -125,12 +123,48 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 	}
 
 	@Override
-	public void handle(ActionEvent actionEvent) {
+	public void handle(ActionEvent event) {
 
+		Button b = (Button) event.getSource();
+		String value = b.getText();
+		switch (value){
+			case "+", "-", "*", "/" -> {
+				operator = value;
+				number1 = displayText.getText();
+				displayText.setText("");
+			}
+			case "=" -> {
+				number2 = displayText.getText();
+				if (!number1.equals("") && !number2.equals("")) {
+					displayText.setText(operacion());
+				}
+			}
+			case "C" -> {
+				number1 = "";
+				number2 = "";
+				operator = "";
+				displayText.setText("");
+			}
+			default -> displayText.setText(displayText.getText()+value);
+		}
 	}
+	public String operacion(){
+		double num1 = Double.parseDouble(number1);
+		double num2 = Double.parseDouble(number2);
+		String resultado = "";
+		switch (operator){
+			case "+" -> resultado = Double.toString(num1 + num2);
+			case "-" -> resultado = Double.toString(num1 - num2);
+			case "*" -> resultado = Double.toString(num1 * num2);
+			case "/" -> {
+				if (num2 == 0){
+					resultado = "Resultado indefinido";
 
-	@Override
-	public Node getStyleableNode() {
-		return super.getStyleableNode();
+				} else {
+					resultado = Double.toString(num1 / num2);
+				}
+			}
+		}
+		return resultado;
 	}
 }
